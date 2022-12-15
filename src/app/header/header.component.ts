@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from "@angular/core";
-import { DataStorageService } from "../share/data-storage.server";
+import {DataStorageService} from "../share/data-storage.server";
 import {AuthService} from "../auth/auth.service";
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
@@ -8,23 +8,18 @@ import {Router} from "@angular/router";
   selector: 'app-header',
   templateUrl: './header.component.html'
 })
-export class HeaderComponent implements OnInit, OnDestroy{
+export class HeaderComponent implements OnInit, OnDestroy {
 
   isAuthenticated = false;
   private userSub: Subscription;
-  constructor(private dataStorageService: DataStorageService, private authService: AuthService, private router: Router) { }
 
-  ngOnInit() {
-    this.userSub = this.authService.user.subscribe(user =>{
-      this.isAuthenticated  = !!user;
-      console.log(!user);
-      console.log(!!user);
-    });
+  constructor(private dataStorageService: DataStorageService, private authService: AuthService, private router: Router) {
   }
 
-  onLogout(){
-    this.authService.logout();
-    this.router.navigate(['/auth']);
+  ngOnInit() {
+    this.userSub = this.authService.user.subscribe(user => {
+      this.isAuthenticated = !!user;
+    });
   }
 
   onSaveData() {
@@ -33,6 +28,10 @@ export class HeaderComponent implements OnInit, OnDestroy{
 
   onFetchData() {
     this.dataStorageService.fetchRecipes().subscribe();
+  }
+
+  onLogout() {
+    this.authService.logout();
   }
 
   ngOnDestroy() {
